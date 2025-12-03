@@ -1,6 +1,6 @@
 package com.erickson.spring_batch_demo.config;
 
-import com.erickson.spring_batch_demo.entity.Person;
+import com.erickson.spring_batch_demo.model.Person;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 

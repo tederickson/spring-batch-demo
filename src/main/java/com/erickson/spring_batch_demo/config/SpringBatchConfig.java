@@ -1,6 +1,6 @@
 package com.erickson.spring_batch_demo.config;
 
-import com.erickson.spring_batch_demo.entity.Person;
+import com.erickson.spring_batch_demo.model.Person;
 import com.erickson.spring_batch_demo.repository.PersonRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

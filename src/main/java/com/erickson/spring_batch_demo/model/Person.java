@@ -1,4 +1,4 @@
-package com.erickson.spring_batch_demo.entity;
+package com.erickson.spring_batch_demo.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
