@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.erickson.spring_batch_demo.batch.config.JobConstant.FILE_NAME;
+
 @RestController
 @RequestMapping("/jobs")
 @Slf4j
@@ -47,7 +49,7 @@ public class JobController {
 
         final JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("startAt", System.currentTimeMillis())
-                .addString("fileName", importRequest.fileName())
+                .addString(FILE_NAME, importRequest.fileName())
                 .toJobParameters();
 
         try {

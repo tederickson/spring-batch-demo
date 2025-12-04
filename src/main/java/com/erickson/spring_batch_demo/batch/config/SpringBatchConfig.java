@@ -5,25 +5,36 @@ import com.erickson.spring_batch_demo.model.Person;
 import com.erickson.spring_batch_demo.repository.PersonRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.data.RepositoryItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.util.Map;
+
+import static com.erickson.spring_batch_demo.batch.config.JobConstant.FILE_NAME;
+
 @Configuration
 public class SpringBatchConfig {
 
     @Bean
-    public FlatFileItemReader<Person> reader(PersonLineMapper personLineMapper) {
+    @StepScope
+    public FlatFileItemReader<Person> reader(
+            @Value("#{jobParameters}") Map<String, Object> jobParameters,
+            PersonLineMapper personLineMapper) {
+        String fileName = jobParameters.get(FILE_NAME).toString();
+
         return new FlatFileItemReaderBuilder<Person>()
                 .name("personItemReader")
-                .resource(new ClassPathResource("people-1000.csv"))
+                .resource(new ClassPathResource(fileName))
                 .linesToSkip(1)
                 .lineMapper(personLineMapper)
                 .targetType(Person.class)
