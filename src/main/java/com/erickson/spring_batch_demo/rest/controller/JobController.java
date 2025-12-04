@@ -13,6 +13,7 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,11 +30,20 @@ public class JobController {
     private final JobLauncher jobLauncher;
     private final Job job;
 
-    @PostMapping("/import/person")
-    public String importPerson(@RequestBody ImportRequest importRequest) throws ImportJobException {
+    private static void validateRequest(ImportRequest importRequest) throws ImportJobException {
         if (!StringUtils.hasText(importRequest.fileName())) {
             throw new ImportJobException("Missing file name", HttpStatus.BAD_REQUEST);
         }
+
+        var resource = new ClassPathResource(importRequest.fileName());
+        if (!resource.exists()) {
+            throw new ImportJobException("Invalid file name " + importRequest.fileName(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/import/person")
+    public String importPerson(@RequestBody ImportRequest importRequest) throws ImportJobException {
+        validateRequest(importRequest);
 
         final JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("startAt", System.currentTimeMillis())
