@@ -40,17 +40,21 @@ public class PersonLineMapper implements LineMapper<Person> {
     }
 
     @Override
-    public @NonNull Person mapLine(@NonNull String line, int lineNumber) throws Exception {
+    public @NonNull Person mapLine(@NonNull String line, int lineNumber) {
         FieldSet fieldSet = lineTokenizer.tokenize(line);
 
-        if (validString("userId", fieldSet, line, lineNumber) &&
-                validString("firstName", fieldSet, line, lineNumber) &&
-                validString("lastName", fieldSet, line, lineNumber) &&
-                validString("jobTitle", fieldSet, line, lineNumber) &&
-                validGender(fieldSet.readString("gender"), line, lineNumber) &&
-                validEmail(fieldSet.readString("email"), line, lineNumber) &&
-                validPhone(fieldSet.readString("phone"), line, lineNumber)) {
-            return fieldSetMapper.mapFieldSet(fieldSet);
+        try {
+            if (validString("userId", fieldSet, line, lineNumber) &&
+                    validString("firstName", fieldSet, line, lineNumber) &&
+                    validString("lastName", fieldSet, line, lineNumber) &&
+                    validString("jobTitle", fieldSet, line, lineNumber) &&
+                    validGender(fieldSet.readString("gender"), line, lineNumber) &&
+                    validEmail(fieldSet.readString("email"), line, lineNumber) &&
+                    validPhone(fieldSet.readString("phone"), line, lineNumber)) {
+                return fieldSetMapper.mapFieldSet(fieldSet);
+            }
+        } catch (Exception e) {
+            invalidLine(line, lineNumber, "invalid dateOfBirth");
         }
 
         Person invalidPerson = new Person();
@@ -69,6 +73,7 @@ public class PersonLineMapper implements LineMapper<Person> {
     }
 
     private boolean validGender(String gender, String line, int lineNumber) {
+        // This needs to expand to include LGBTQ+ genders
         if ("Male".equals(gender) || "Female".equals(gender)) {
             return true;
         }
