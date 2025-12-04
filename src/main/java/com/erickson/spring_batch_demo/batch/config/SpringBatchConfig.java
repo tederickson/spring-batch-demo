@@ -1,5 +1,6 @@
 package com.erickson.spring_batch_demo.batch.config;
 
+import com.erickson.spring_batch_demo.batch.processor.PersonProcessor;
 import com.erickson.spring_batch_demo.batch.reader.PersonLineMapper;
 import com.erickson.spring_batch_demo.model.Person;
 import com.erickson.spring_batch_demo.repository.PersonRepository;

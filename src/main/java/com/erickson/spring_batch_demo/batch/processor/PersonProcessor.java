@@ -1,4 +1,4 @@
-package com.erickson.spring_batch_demo.batch.config;
+package com.erickson.spring_batch_demo.batch.processor;
 
 import com.erickson.spring_batch_demo.model.Person;
 import org.springframework.batch.item.ItemProcessor;
