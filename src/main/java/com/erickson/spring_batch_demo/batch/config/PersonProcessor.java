@@ -11,7 +11,9 @@ public class PersonProcessor implements ItemProcessor<Person, Person> {
 
     @Override
     public Person process(Person person) {
-        if (person.getUserId().equals(INVALID_ID)) {return null;}
+        if (person.getUserId().equals(INVALID_ID)) {
+            return null;
+        }
 
         return person;
     }
