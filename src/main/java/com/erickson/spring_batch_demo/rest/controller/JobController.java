@@ -32,7 +32,6 @@ import static com.erickson.spring_batch_demo.batch.config.JobConstant.REJECT_COU
 @Slf4j
 @RequiredArgsConstructor
 public class JobController {
-
     private final JobLauncher jobLauncher;
     private final Job job;
 
@@ -49,10 +48,12 @@ public class JobController {
 
     @PostMapping("/import/person")
     public ImportResponse importPerson(@RequestBody ImportRequest importRequest) throws ImportJobException {
+        final long startAt = System.currentTimeMillis();
+
         validateRequest(importRequest);
 
         final JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("startAt", System.currentTimeMillis())
+                .addLong("startAt", startAt)
                 .addString(FILE_NAME, importRequest.fileName())
                 .toJobParameters();
 
@@ -64,8 +65,9 @@ public class JobController {
             BatchStatus status = jobExecution.getStatus();
             Integer insertCount = jobExecution.getExecutionContext().getInt(INSERT_COUNT, 0);
             Integer rejectCount = jobExecution.getExecutionContext().getInt(REJECT_COUNT, 0);
+            Long duration = System.currentTimeMillis() - startAt;
 
-            return new ImportResponse(status, insertCount, rejectCount);
+            return new ImportResponse(status, insertCount, rejectCount, duration);
         } catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException
                  | JobParametersInvalidException e) {
             log.error("job failed", e);

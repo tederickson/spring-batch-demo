@@ -28,7 +28,7 @@ public class SpringBatchConfig {
 
     @Bean
     @StepScope
-    public FlatFileItemReader<Person> reader(
+    FlatFileItemReader<Person> reader(
             @Value("#{jobParameters}") Map<String, Object> jobParameters,
             PersonLineMapper personLineMapper) {
         String fileName = jobParameters.get(FILE_NAME).toString();
@@ -58,7 +58,7 @@ public class SpringBatchConfig {
     }
 
     @Bean
-    public Step step(JobRepository jobRepository, PlatformTransactionManager transactionManager,
+    Step step(JobRepository jobRepository, PlatformTransactionManager transactionManager,
                      PersonProcessor processor,
                      FlatFileItemReader<Person> reader, RepositoryItemWriter<Person> writer) {
         return new StepBuilder("csv-import-step", jobRepository)
