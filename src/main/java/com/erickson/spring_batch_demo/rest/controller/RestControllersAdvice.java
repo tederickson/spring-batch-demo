@@ -2,9 +2,11 @@ package com.erickson.spring_batch_demo.rest.controller;
 
 import com.erickson.spring_batch_demo.exception.ImportJobException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
 @Slf4j
@@ -15,7 +17,7 @@ public class RestControllersAdvice {
     }
 
     @ExceptionHandler(ImportJobException.class)
-    protected ResponseEntity<Object> importJobExceptionHandler(ImportJobException importJobException,
+    protected ResponseEntity<String> importJobExceptionHandler(ImportJobException importJobException,
                                                                WebRequest request) {
         logRequestThatCausedTheError(request);
         log.error("{}", importJobException.getApiError(), importJobException);
@@ -23,5 +25,12 @@ public class RestControllersAdvice {
         var apiError = importJobException.getApiError();
 
         return new ResponseEntity<>(apiError.message(), apiError.httpStatus());
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected void defaultExceptionHandler(Exception exception, WebRequest request) {
+        logRequestThatCausedTheError(request);
+        log.error("Unhandled exception, please write defect", exception);
     }
 }
