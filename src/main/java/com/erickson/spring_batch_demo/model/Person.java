@@ -13,19 +13,19 @@ public class Person {
     @Id
     private String userId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 40)
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 40)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 6)
     private String gender;
 
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String phone;
 
     @Column(nullable = false)

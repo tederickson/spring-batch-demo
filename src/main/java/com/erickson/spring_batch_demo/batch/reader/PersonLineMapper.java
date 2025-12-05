@@ -97,7 +97,7 @@ public class PersonLineMapper implements LineMapper<Person> {
             invalidLine(line, lineNumber, "missing phone");
             return false;
         }
-        if (phone.startsWith("-")) {
+        if (phone.length() < 9) {
             invalidLine(line, lineNumber, "invalid phone");
             return false;
         }
