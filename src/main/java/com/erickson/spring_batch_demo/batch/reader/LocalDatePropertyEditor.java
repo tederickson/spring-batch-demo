@@ -1,4 +1,4 @@
-package com.erickson.spring_batch_demo.batch.mapper;
+package com.erickson.spring_batch_demo.batch.reader;
 
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;

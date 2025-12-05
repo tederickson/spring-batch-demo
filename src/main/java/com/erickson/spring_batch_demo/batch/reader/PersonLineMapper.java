@@ -1,6 +1,5 @@
 package com.erickson.spring_batch_demo.batch.reader;
 
-import com.erickson.spring_batch_demo.batch.mapper.LocalDatePropertyEditor;
 import com.erickson.spring_batch_demo.model.Person;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.file.LineMapper;
