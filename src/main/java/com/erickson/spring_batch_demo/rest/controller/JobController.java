@@ -53,7 +53,6 @@ public class JobController {
         validateRequest(importRequest);
 
         final JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("startAt", startAt)
                 .addString(FILE_NAME, importRequest.fileName())
                 .toJobParameters();
 
