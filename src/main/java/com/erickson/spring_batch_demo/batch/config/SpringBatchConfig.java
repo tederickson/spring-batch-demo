@@ -58,9 +58,11 @@ public class SpringBatchConfig {
     }
 
     @Bean
-    Step step(JobRepository jobRepository, PlatformTransactionManager transactionManager,
-                     PersonProcessor processor,
-                     FlatFileItemReader<Person> reader, RepositoryItemWriter<Person> writer) {
+    Step step(JobRepository jobRepository,
+              PlatformTransactionManager transactionManager,
+              PersonProcessor processor,
+              FlatFileItemReader<Person> reader,
+              RepositoryItemWriter<Person> writer) {
         return new StepBuilder("csv-import-step", jobRepository)
                 .<Person, Person>chunk(10, transactionManager)
                 .reader(reader)

@@ -5,15 +5,10 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public class ImportJobException extends Exception {
-    final ApiError apiError;
-
-    public ImportJobException(ApiError apiError) {
-        super(apiError.message());
-
-        this.apiError = apiError;
-    }
+    private final ApiError apiError;
 
     public ImportJobException(String message, HttpStatus httpStatus) {
-        this(new ApiError(message, httpStatus));
+        super(message);
+        apiError = new ApiError(message, httpStatus);
     }
 }
