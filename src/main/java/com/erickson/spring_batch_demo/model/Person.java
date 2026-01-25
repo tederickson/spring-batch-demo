@@ -3,6 +3,7 @@ package com.erickson.spring_batch_demo.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Version;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -12,6 +13,9 @@ import java.time.LocalDate;
 public class Person {
     @Id
     private String userId;
+
+    @Version // Enable optimistic locking
+    private int version;
 
     @Column(nullable = false, length = 40)
     private String firstName;
