@@ -52,8 +52,10 @@ public class JobController {
 
         validateRequest(importRequest);
 
+        // Change the parameters so that the job will run again
         final JobParameters jobParameters = new JobParametersBuilder()
                 .addString(FILE_NAME, importRequest.fileName())
+                .addString("rerunJob", Long.toString(System.currentTimeMillis()))
                 .toJobParameters();
 
         try {
